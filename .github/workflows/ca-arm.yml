@@ -23,7 +23,7 @@ jobs:
         with:
           buildx-version: latest
 
-      - name: Login to GitHub Docker Registry
+      - name: Login to DockerHub Docker Registry
         run: echo "${DOCKERHUB_PASSWORD}" | docker login -u "${DOCKERHUB_USERNAME}"
         env:
           DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
@@ -35,7 +35,7 @@ jobs:
           docker buildx build \
             --platform linux/amd64,linux/arm64,linux/arm/v7 \
             --build-arg=VERSION=${{ env.VERSION }} \
-            --tag raspbernetes/cluster-autoscaler:${{ github.sha }} \
+            --tag kubernautslabs/cluster-autoscaler:${{ github.sha }} \
             -f ./build/cluster-autoscaler/Dockerfile \
             ./build/cluster-autoscaler/ \
             --push
@@ -46,8 +46,8 @@ jobs:
           docker buildx build \
             --platform linux/amd64,linux/arm64,linux/arm/v7 \
             --build-arg=VERSION=${{ env.VERSION }} \
-            --tag raspbernetes/cluster-autoscaler:latest \
-            --tag raspbernetes/cluster-autoscaler:${{ env.VERSION }} \
+            --tag kubernautslabs/cluster-autoscaler:latest \
+            --tag kubernautslabs/cluster-autoscaler:${{ env.VERSION }} \
             -f ./build/cluster-autoscaler/Dockerfile \
             ./build/cluster-autoscaler/ \
             --push
